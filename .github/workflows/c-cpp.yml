@@ -25,17 +25,17 @@ jobs:
         with:
           cmake-version: '3.28'  # Specify your required CMake version
 
-      - name: Build in Release mode
+      - name: Build in Debug mode
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake ..
           cmake --build .
 
       - name: Run tests
         run: |
           cd build/MyTest
-          ctest -C Release
+          ctest -C Debug
 
       # - name: Upload test results
       #   uses: actions/upload-artifact@v2
