@@ -34,8 +34,8 @@ jobs:
 
       - name: Run tests
         run: |
-          cd build
-          ctest --config Release
+          cd build/MyTest
+          ctest -C Release
 
       # - name: Upload test results
       #   uses: actions/upload-artifact@v2
