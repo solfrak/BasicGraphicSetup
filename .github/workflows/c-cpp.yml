@@ -3,16 +3,12 @@ name: CI
 on:
   push:
     branches:
-      - master  # Change this to your default branch
+      - main  # Change this to your default branch
   pull_request:
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+  build-ubuntu:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -29,16 +25,48 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake .. 
           cmake --build .
 
       - name: Run tests
         run: |
-          cd build/MyTest
+          cd build
+          ctest -C Debug
+#
+#      - name: Upload test results
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: test-results-ubuntu
+#          path: build/Testing/Temporary/*
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'  # Initialize and update submodules
+
+      - name: Set up CMake
+        uses: jwlawson/actions-setup-cmake@v1
+        with:
+          cmake-version: '3.28'  # Specify your required CMake version
+
+      - name: Build in Debug mode
+        run: |
+          mkdir build
+          cd build
+          cmake .. 
+          cmake --build .
+
+      - name: Run tests
+        run: |
+          cd build
           ctest -C Debug
 
-      # - name: Upload test results
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: test-results-${{ matrix.os }}
-      #     path: build/Testing/Temporary/*
+#      - name: Upload test results
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: test-results-windows
+#          path: build/Testing/Temporary/*
