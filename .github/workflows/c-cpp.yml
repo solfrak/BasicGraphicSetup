@@ -32,12 +32,13 @@ jobs:
         run: |
           cd build/MyTest
           ctest -C Debug
-#
-#      - name: Upload test results
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: test-results-ubuntu
-#          path: build/Testing/Temporary/*
+          
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-windows
+          path: build/MyExec/Debug/*
 
   build-windows:
     runs-on: windows-latest
@@ -65,8 +66,8 @@ jobs:
           cd build/MyTest
           ctest -C Debug
 
-#      - name: Upload test results
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: test-results-windows
-#          path: build/Testing/Temporary/*
+      - name: Upload executable
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-windows
+          path: build/MyExec/Debug/*
