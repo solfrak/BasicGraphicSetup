@@ -7,5 +7,5 @@ TEST(PersonTest, PersonShouldTalk)
 {
     Person person;
 
-    EXPECT_FALSE(person.canTalk());
+    EXPECT_TRUE(person.canTalk());
 }
