@@ -1,23 +1,42 @@
-name: C/C++ CI
+name: CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - main  # Change this to your default branch
   pull_request:
-    branches: [ "master" ]
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
 
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up CMake
+        uses: jwlawson/actions-setup-cmake@v1
+        with:
+          cmake-version: '3.28'  # Specify your required CMake version
+
+      - name: Build in Release mode
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build .
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest --config Release
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results-${{ matrix.os }}
+          path: build/Testing/Temporary/*
