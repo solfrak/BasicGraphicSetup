@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main  # Change this to your default branch
+      - master  # Change this to your default branch
   pull_request:
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd build
+          cd build/MyTest
           ctest -C Debug
 #
 #      - name: Upload test results
@@ -62,7 +62,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd build
+          cd build/MyTest
           ctest -C Debug
 
 #      - name: Upload test results
